@@ -1,7 +1,7 @@
 import axios from "axios"
 
 let defaultId = '0x5CB790783984fF41D214e03dF10e7244603E361b'
-let endpoint = 'https://api-apollo.pegaxy.io/v1/'
+let endpoint = 'https://api-apollo.pegaxy.io/v1'
 
 export interface IAssets {
     lockedVis: number
@@ -11,7 +11,71 @@ export interface IAssets {
 interface IEarnings {
     
 }
-
+export interface ISpecificPega {
+    pega:{
+        id:number
+        name:"Biohazard | MADE"
+        class:number
+        ownerId:number
+        renterId:number
+        energy:number
+        lastReduceEnergy:number
+        inService:string
+        inRace:string
+        gender:string
+        bloodLine:string
+        breedType:string
+        breedTime:number
+        designId:number
+        fatherId:number
+        motherId:number
+        total_races:number
+        win:number
+        lose:number
+        speed:number
+        strength:number
+        wind:number
+        water:number
+        fire:number
+        lighting:number
+        canRace:true
+        lastBreedTime:number
+        bornTime:number
+        isBanned:false
+        extraData:{eventId:null
+        ticketType:null
+        ticketId:null}
+        canRaceAt:number
+        owner:{
+            name:string
+            address:string
+        }
+        design:{
+            avatar:string
+            avatar_2:string
+        bloodLine:string
+        breedType:string
+        bodyBaseColorTexture: string
+        bodyRoughnessTexture:string
+        bodyEmissiveTexture:string
+        bodyAOTexture:string
+        body0BaseColor:string
+        body1BaseColor:string
+        body2BaseColor:string
+        body3BaseColor:string
+        body4BaseColor:string
+        wingsBaseColorTexture: string
+        wingsNormalTexture: string
+        wingsRoughnessTexture: string
+        wingsEmissiveTexture: string
+        wings0BaseColor:string
+        wings1BaseColor: string
+        wings2BaseColor: string
+        wings3BaseColor: string
+        createdAt:string
+        }
+    }
+}
 export interface IPega {
     bloodLine: string
     bornTime: number
@@ -65,8 +129,8 @@ const getPega = async (id?:string|null): Promise<IPega[]> => {
     return pega.json()
 }
 
-const getSpecificPega = async (pegaId: string, id?:string|null): Promise<IPega> => {
-  const pega = await fetch(`${endpoint}/pegas/${pegaId}
+const getSpecificPega = async (pegaId: string, id?:string|null): Promise<ISpecificPega> => {
+  const pega = await fetch(`${endpoint}/game-api/pega/${pegaId}
   `)
   return pega.json()
 }

@@ -8,6 +8,7 @@ import {
 } from "remix";
 import type { MetaFunction } from "remix";
 import styles from "./tailwind.css";
+import fonts from "./fonts.css";
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
