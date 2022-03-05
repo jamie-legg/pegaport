@@ -1,6 +1,4 @@
 import axios from "axios"
-
-let defaultId = '0x5CB790783984fF41D214e03dF10e7244603E361b'
 let endpoint = 'https://api-apollo.pegaxy.io/v1'
 
 export interface IAssets {
@@ -125,7 +123,7 @@ interface IStats {
 }
 
 const getPega = async (id?:string|null): Promise<IPega[]> => {
-    const pega =  await fetch(`${endpoint}/pegas/owner/user/${id || defaultId}`)
+    const pega =  await fetch(`${endpoint}/pegas/owner/user/${id}`)
     return pega.json()
 }
 
@@ -139,19 +137,18 @@ const getSpecificPega = async (pegaId: string, id?:string|null): Promise<ISpecif
 
 const getEarnings = async (id?:string|null): Promise<IEarnings> => {
     return ( await axios.get(
-        `${endpoint}/earnings/historical/user/${id || defaultId}`
+        `${endpoint}/earnings/historical/user/${id}`
     )).data
 }
 
 const getAssets = async (id?:string|null): Promise<IAssets> => {
-    const assets = await fetch(`${endpoint}/assets/count/user/${id || defaultId}`)
+    const assets = await fetch(`${endpoint}/assets/count/user/${id}`)
     return assets.json()
 }
     
 
 const getStats = async (id?:string|null): Promise<IStats> => {
-    const stats = await axios.get(
-        id ? `${endpoint}/stats/game/total/user/${id}` : `${endpoint}/stats/game/total/user/${defaultId}`)
+    const stats = await axios.get(`${endpoint}/stats/game/total/user/${id}`)
     return stats.data
 }
 

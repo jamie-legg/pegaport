@@ -11,14 +11,13 @@ import { utils } from 'ethers';
 import { CreditCardIcon } from '@heroicons/react/solid'
 import Nav from "~/components/nav";
 import { SearchIcon } from "@heroicons/react/outline";
+import Typist from "react-typist";
 
 export const loader = async () => {
   return getAssets();
 };
 
 export async function action({ request }: any) {
-  console.log(request);
-  
   const body = await request.formData();
   const name = body.get("pega_id");
   return { message: `Hello, ${name}` };
@@ -31,7 +30,6 @@ export default function Index() {
   let transition = useTransition();
   let busy = transition.submission;
   const data = useActionData();
-  console.log(data);
   
   const [visibleId, setVisibleId] = useState("...");
   const [visPrice, setVisPrice] = useState("0.2");
@@ -39,7 +37,8 @@ export default function Index() {
   const [pega, setPega] = useState<IPega[]>([]);
   const [hasMetaMask, setHasMetaMask] = useState(false);
   const [connection, setConnection] = useState("");
-
+  const [introMessage, setIntroMessage ] = useState("Connect your wallet to see your pega flock or search for a specific pega by ID.");
+  const [authIntroMessage, setAuthIntroMessage ] = useState("");
   const visEarningsTotal = useMemo(() => {
     let t = 0;
     pega.forEach(pega => {
@@ -47,7 +46,6 @@ export default function Index() {
       let born = new Date(pega.bornTime*1000);
       let days = Math.floor((today.getTime() - born.getTime()) / (24*60*60*1000))
       let average = Math.floor((pega.gold * 105 + pega.silver * 44 + pega.bronze * 26 || 0) / days);
-      console.log(average, days, pega.gold, pega.silver, pega.bronze);
       if(average > 0) {
         t += average;
       }
@@ -72,7 +70,6 @@ export default function Index() {
     const isMetaMaskInstalled = () => {
       //Have to check the ethereum binding on the window object to see if it's installed
       let testWindow: any = window;
-      console.log(testWindow)
       return Boolean(testWindow.ethereum && testWindow.ethereum.isMetaMask);
     };
     setHasMetaMask(isMetaMaskInstalled());
@@ -85,8 +82,6 @@ export default function Index() {
       tw.ethereum.request({
         method: 'eth_requestAccounts'
       }).then((accounts: any) => {
-        console.log(accounts);
-
         if (accounts) setConnection(utils.getAddress(accounts[0]));
       });
     }
@@ -94,25 +89,30 @@ export default function Index() {
 
   useEffect(() => {
     if (connection) {
+      let racingPega = 0;
+      let restingPega = 0;
+      let waitingPega = 0;
       getPega(connection).then(pega => {
         setPega(pega);
       });
+      setAuthIntroMessage(`Welcome back. You have ${racingPega} pega(s) racing, ${restingPega} pega(s) resting, and ${waitingPega} pega(s) waiting.`);
       //visible id is the last 4 digits of the connection id
       setVisibleId(connection);
     }
   }, [connection]);
 
   return (
-    <div className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 h-full w-full">
+    <div className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 min-h-screen w-full">
       <Nav />
       <div className="py-20 mx-auto rounded-md w-max">
         <div className="flex">
-          <Title>pegaportfolio</Title>
-
-          <span className="fixed bottom-0 left-0">MADE</span>
+          <img src="/pegaport.png" alt="logo" className="w-16 h-16 mr-3" />
+          <Title>pegaport</Title><span className="inline-block mt-10 font-extralight">by MAD£</span>
+          
         </div>
-
-        <div className="flex justify-end mt-9">
+        {hasMetaMask && connection.length > 5 ? <Typist>{authIntroMessage}</Typist>
+             : <Typist>{introMessage}</Typist> }
+        <div className="flex justify-end mt-3">
           <Button><CreditCardIcon className="inline-block w-5 mr-2"></CreditCardIcon>ID: {visibleId}</Button>
           {hasMetaMask && connection.length > 5 ?
             <Button type={'danger'}><button className="font-extrabold" onClick={() => {
@@ -161,7 +161,9 @@ export default function Index() {
                 <Form>
                 <div className="text-xl flex font-light">
                   PEGA ID: <input name="pega_id" type={"text"} className="ml-2 font-extrabold text-2xl h-max bg-fuchsia-300 bg-opacity-25 rounded-lg"></input>
-                <button type="submit" className="mx-2 font-bold hover:text-fuchsia-200 transition-all uppercase"><SearchIcon className="inline-block w-5"></SearchIcon>{busy ? "..." : "search"}</button>
+                <button type="submit" className="mx-2 font-bold hover:text-fuchsia-200 transition-all uppercase">
+                  <SearchIcon className="inline-block w-5 mr-3"></SearchIcon>
+                  {busy ? <Typist>...</Typist> : "search"}</button>
                 </div>
                 </Form>
               </div>

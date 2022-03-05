@@ -34,7 +34,7 @@ export const Score = ({ score }: any) => {
     return(
         <div className="flex h-full w-36">
             {[...Array(quantity)].map((_, i) => (
-                <div className={`${color} w-4 h-4 mr-1 rounded-sm`}></div>
+                <div key={i} className={`${color} w-4 h-4 mr-1 rounded-sm`}></div>
             ))}
         </div>
     )

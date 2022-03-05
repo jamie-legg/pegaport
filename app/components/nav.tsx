@@ -36,7 +36,7 @@ const Nav = () => {
             search
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to="/family">
             {({ isActive }) => (
               <span
@@ -48,7 +48,7 @@ const Nav = () => {
               </span>
             )}
           </NavLink>
-            </li>
+            </li> */}
         </ul>
         </nav>
     );

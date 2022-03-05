@@ -16,8 +16,6 @@ export default function Pega() {
   
   const pegas:IPega[] = useLoaderData<IPega[]>();
   pegas.sort((a, b) => b.winRate - a.winRate);
-
-  console.log(pegas);
     return (
       <main>
         <Title>My Pega</Title>

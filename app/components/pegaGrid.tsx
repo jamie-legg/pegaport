@@ -42,7 +42,7 @@ const PegaGrid = ({ pegas }: IPegaGridProps) => {
             }
           }
           return(
-            <>
+            <div key={index}>
           <li className="bg-gradient-to-r from-slate-900 to-fuchsia-900 py-2 my-6 mx-2 px-2 rounded-md font-bold grid grid-cols-6" key={pega.id}>
             <Link className="text-left pr-3" to={"pega/"+pega.id.toString()}>{index+1}. {pega.name}<span className={`${pega.gender==="Male"?`text-blue-600` : `text-pink-500`} ml-2 text-xs`}>({pega.breedCount}/3{pega.gender === "Male"? "M" : "F"})</span></Link>
             <span className={index === 0? "text-amber-300" : index === 1? "text-slate-300" : ""}>{pega.winRate*100}%</span>
@@ -61,7 +61,7 @@ const PegaGrid = ({ pegas }: IPegaGridProps) => {
               {pega.service === "RENT_SERVICE" ? "Renting" : "Resting"}
             </span>
           </li>
-          </>
+          </div>
         )})}
       </ul>
     )
