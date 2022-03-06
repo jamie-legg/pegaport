@@ -11,11 +11,12 @@ import styles from "./tailwind.css";
 import fonts from "./fonts.css";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return { title: "PEGAPORT by MAD£" };
 };
 
 export function links() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{ rel: "stylesheet", href: styles },
+  { rel: "stylesheet", href: fonts }];
 }
 
 export default function App() {

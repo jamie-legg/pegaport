@@ -110,8 +110,6 @@ export default function Index() {
           <Title>pegaport</Title><span className="inline-block mt-10 font-extralight">by MAD£</span>
           
         </div>
-        {hasMetaMask && connection.length > 5 ? <Typist>{authIntroMessage}</Typist>
-             : <Typist>{introMessage}</Typist> }
         <div className="flex justify-end mt-3">
           <Button><CreditCardIcon className="inline-block w-5 mr-2"></CreditCardIcon>ID: {visibleId}</Button>
           {hasMetaMask && connection.length > 5 ?
@@ -135,8 +133,8 @@ export default function Index() {
             <Heading style={'small'} title={'token prices'}>
               <div className="flex flex-col">
                 <div>
-                  <div className="text-xl font-light">VIS: <span className="font-extrabold text-2xl">{visPrice}</span></div>
-                  <div className="text-xl font-light">PGX: <span className="font-extrabold text-2xl">{pgxPrice}</span></div>
+                  <div className="text-xl font-light">VIS: <span className="font-extrabold text-2xl italic">{visPrice}</span></div>
+                  <div className="text-xl font-light">PGX: <span className="font-extrabold text-2xl italic">{pgxPrice}</span></div>
                 </div>
               </div>
 
@@ -148,8 +146,8 @@ export default function Index() {
             <Heading style={'small'} title={'my stats'}>
             <div className="flex flex-col">
                 <div>
-                  <div className="text-xl font-light">Projected daily earnings: <span className="font-extrabold text-2xl">{visEarningsTotal} VIS</span></div>
-                  <div className="text-xl font-light">PGX: <span className="font-extrabold">{pgxPrice}</span></div>
+                  <div className="text-xl font-light">Projected daily earnings: <span className="font-extrabold text-2xl italic">{visEarningsTotal} VIS</span></div>
+                  <div className="text-xl font-light">Pega owned: <span className="font-extrabold text-2xl italic">{pega.length}</span></div>
                 </div>
               </div>
             </Heading>

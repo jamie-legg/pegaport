@@ -20,7 +20,7 @@ const Nav = () => {
         <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive ? activeStyle : undefined
+              `${isActive ? activeStyle : undefined} transition-all hover:text-5xl hover:font-bold`
             }
           >
             my pega
@@ -30,25 +30,21 @@ const Nav = () => {
           <NavLink
             to="/search"
             className={({ isActive }) =>
-              isActive ? activeStyle : undefined
+            `${isActive ? activeStyle : undefined} transition-all hover:text-5xl hover:font-bold`
             }
           >
             search
           </NavLink>
         </li>
-        {/* <li>
-          <NavLink to="/family">
-            {({ isActive }) => (
-              <span
-                className={
-                  isActive ? activeStyle : undefined
-                }
-              >
-                family tree
-              </span>
-            )}
-          </NavLink>
-            </li> */}
+        <li>
+        <a
+            href="https://discord.gg/5c2AGrEMsw"
+            className={`transition-all hover:text-5xl hover:font-bold`}
+            
+          >
+            discord
+          </a>
+            </li>
         </ul>
         </nav>
     );

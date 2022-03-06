@@ -9,7 +9,7 @@ const Button = ({ children, type }: any) => {
             return "my-3 mr-3 bg-none border-red-400 text-red-500 cursor-pointer hover:bg-red-900 transition-all rounded-md h-max px-6 py-3 uppercase font-extrabold";
         }
             else {
-            return "my-3 mr-3 bg-none text-white cursor-pointer hover:bg-slate-800 transition-all rounded-md h-max px-6 py-3 uppercase font-extrabold";
+            return "my-3 mr-3 bg-none text-white transition-all rounded-md h-max px-6 py-3 uppercase font-extrabold";
         }
     }, [type]);
 
