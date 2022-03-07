@@ -1,3 +1,5 @@
+//TODO: remove hardcoded VIS and PGX values
+
 interface IAggregatorResponse {
     "0xcc1b9517460d8ae86fe576f614d091fca65a28fc": {
         decimals: number;

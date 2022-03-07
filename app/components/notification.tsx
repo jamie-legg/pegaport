@@ -1,11 +1,22 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Transition } from '@headlessui/react'
-import { InboxIcon } from '@heroicons/react/outline'
+import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/outline'
 import { XIcon } from '@heroicons/react/solid'
 
-export default function Example() {
-  const [show, setShow] = useState(true)
+const  Toast = ({ message } : any)  => {
+  const [show, setShow] = useState(false)
+  const [content, setContent] = useState(message)
+
+  useEffect(() => {
+    if(message.length > 0) {
+    setContent(message)
+    setShow(true)
+    }
+    else {
+      setShow(false)
+    }
+  }, [message])
 
   return (
     <>
@@ -26,31 +37,15 @@ export default function Example() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+            <div className="max-w-sm w-full bg-slate-900 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
               <div className="p-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <InboxIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                    <ExclamationCircleIcon className="h-6 w-6 text-red-500" aria-hidden="true" />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
-                    <p className="text-sm font-medium text-gray-900">Discussion moved</p>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.
-                    </p>
-                    <div className="mt-3 flex space-x-7">
-                      <button
-                        type="button"
-                        className="bg-white rounded-md text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        Undo
-                      </button>
-                      <button
-                        type="button"
-                        className="bg-white rounded-md text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        Dismiss
-                      </button>
-                    </div>
+                    <p className="text-sm font-medium">Error!</p>
+                    <p className="mt-1 text-sm">{message}</p>
                   </div>
                   <div className="ml-4 flex-shrink-0 flex">
                     <button
@@ -72,3 +67,5 @@ export default function Example() {
     </>
   )
 }
+
+export default Toast;

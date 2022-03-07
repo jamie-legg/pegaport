@@ -1,4 +1,4 @@
-import { SearchCircleIcon, SearchIcon } from "@heroicons/react/solid";
+import { SearchCircleIcon, SearchIcon } from "@heroicons/react/outline";
 import Typist from "react-typist";
 import { Form, useTransition } from "remix";
 import Button from "~/components/button";
@@ -29,7 +29,7 @@ const Search = () => {
                         </input>
                         </Heading>
                         </Form>
-                        <Button>Search<SearchCircleIcon className="inline-block w-9 text-slate-300" /></Button>
+                        <Button><span className="text-4xl">Search</span><SearchCircleIcon className="inline-block w-9 text-white" /></Button>
                 </div>
             </div>
             
