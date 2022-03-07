@@ -7,8 +7,10 @@ interface ITimerProps {
 
 const Timer = ({ time }: ITimerProps) => {
     const calculateTimeLeft = () => {
-        let difference = time.getTime() - new Date().getTime();
+      const now = new Date();
+        let difference = time.getTime() - now.getTime();
         return {
+              days: Math.floor(difference / (1000 * 60 * 60 * 24)),
               hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
               minutes: Math.floor((difference / 1000 / 60) % 60),
               seconds: Math.floor((difference / 1000) % 60)
@@ -18,11 +20,12 @@ const Timer = ({ time }: ITimerProps) => {
 
     const timerComponents: any = [];
 
-
+      
         timerComponents.push(
-          <span>
-            {timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
-          </span>
+          <React.Fragment>
+            <span>{timeLeft.days} days</span> <br/>
+            <span>{timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}</span>
+          </React.Fragment>
         );
 
     useEffect(() => {
