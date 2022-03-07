@@ -4,14 +4,14 @@ import { MenuAlt2Icon } from '@heroicons/react/outline'
 import { Link } from 'remix'
 
 const solutions = [
-  { name: 'my pega', description: 'Learn about tips, product updates and company culture.', href: '#' },
+  { name: 'my pega', description: 'Connect with MetaMask to view insights on your Pega.', href: '/' },
   {
     name: 'search',
     description: "Search for a specific Pega by name or ID.",
-    href: '#',
+    href: '/search',
   },
-  { name: 'discord', description: 'Get all of your questions answered in our forums of contact support.', href: '#' },
-  { name: 'Security', description: 'Understand how we take your privacy seriously.', href: '#' },
+  { name: 'discord', description: 'Get all of your questions answered in our forums of contact support.', href: 'https://discord.gg/5c2AGrEMsw' },
+  { name: 'Security', description: 'Understand how we take your privacy seriously.', href: '/security' },
 ]
 
 function classNames(...classes: string[]) {
@@ -58,8 +58,21 @@ const MobileNav = () => {
             <Popover.Panel className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 max-w-xs sm:px-0">
               <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                 <div className="relative grid gap-6 bg-gradient-to-br from-slate-900 to-fuchsia-900 bg-opacity-40 px-5 py-6 sm:gap-8 sm:p-8 w-full h-full">
-                  {solutions.map((item) => (
-                    <Link
+                  {solutions.map((item) => {
+                      if(item.name === 'discord'){
+                      return(
+<a
+                      key={item.name}
+                      href={item.href}
+                      className="-m-3 u p-3 block rounded-md hover:bg-gradient-to-br hover:from-slate-700 hover:to-fuchsia-700 transition ease-in-out duration-150"
+                    >
+                      <p className="text-2xl font-bold uppercase text-slate-100">{item.name}</p>
+                      <p className="mt-1 text-sm text-slate-300">{item.description}</p>
+                    </a>
+                      )
+                  }
+                        else{
+                        return(<Link
                       key={item.name}
                       to={item.href}
                       className="-m-3 u p-3 block rounded-md hover:bg-gradient-to-br hover:from-slate-700 hover:to-fuchsia-700 transition ease-in-out duration-150"
@@ -67,7 +80,9 @@ const MobileNav = () => {
                       <p className="text-2xl font-bold uppercase text-slate-100">{item.name}</p>
                       <p className="mt-1 text-sm text-slate-300">{item.description}</p>
                     </Link>
-                  ))}
+                        )
+                        }
+                    })}
                 </div>
               </div>
             </Popover.Panel>
