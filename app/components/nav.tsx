@@ -58,7 +58,7 @@ const Nav = ({ connectionSet }: INavProps) => {
       if (accounts) {
         setNavConnection(utils.getAddress(accounts[0]));
         connectionSet(utils.getAddress(accounts[0]));
-        setVisibleId(utils.getAddress(accounts[0]));
+        setVisibleId("HIDDEN");
         localStorage.setItem("pegaport_id", utils.getAddress(accounts[0]));
       }
     }
@@ -81,11 +81,18 @@ const Nav = ({ connectionSet }: INavProps) => {
   return (
     <>
       <nav>
+        <div className="bg-slate-900">
+          
+        <div className="flex w-full justify-start">
         <div className="md:hidden">
           <MobileNav />
         </div>
+          <img src="/pegaport.png" alt="logo" className="w-16 h-16 mr-3" />
+          <Title>pegaport</Title><span className="inline-block mt-10 font-extralight">by MAD£</span>
+
+        </div>
         
-        <ul className="hidden md:flex uppercase xl:space-x-10 space-x-5 2xl:space-x-20 text-2xl font-bold mx-20 pt-2">
+        <ul className="hidden md:flex uppercase xl:space-x-10 space-x-5 2xl:space-x-20 text-2xl font-bold mx-20 pt-2 bg-slate-900 shadow-2xl">
           <li>
             <NavLink
               to="/"
@@ -115,7 +122,7 @@ const Nav = ({ connectionSet }: INavProps) => {
               discord
             </a>
           </li>
-          <li>
+          <li className="text-lg">
             <NavLink
               to="/security"
               className={({ isActive }) =>
@@ -125,35 +132,48 @@ const Nav = ({ connectionSet }: INavProps) => {
               security
             </NavLink>
           </li>
-        </ul>
-        <div className="flex justify-end">
-          <Toast message={notificationMessage} />
-        </div>
-      </nav>
-      <div className="text-left rounded-md ml-20 mt-9">
-        <div className="flex w-full justify-start">
-          <img src="/pegaport.png" alt="logo" className="w-16 h-16 mr-3" />
-          <Title>pegaport</Title><span className="inline-block mt-10 font-extralight">by MAD£</span>
-
-        </div>
-        <div className="flex justify-start mt-3 mr-20">
+          <li className="text-lg">
           <Button>
             <button onClick={toggleIdVisibility}>
             <CreditCardIcon className="inline-block w-5 mr-2"></CreditCardIcon>ID: {visibleId}
             </button>
             </Button>
+          </li>
+          <li className="text-lg">
           {hasMetaMask && navConnection.length > 5 ?
             <Button type={'danger'}>
               <button className="font-extrabold" onClick={disconnect}>
                 DISCONNECT
               </button>
             </Button> : hasMetaMask ?
+            <>
               <Button type={'secondary'}>
                 <button className="font-extrabold" onClick={requestConnection}>
                   CONNECT WITH METAMASK
                 </button>
-              </Button> : <Button type={'secondary'}><a href="https://metamask.io">GET METAMASK</a></Button>}
+              </Button>
+              </> : <><Button type={'secondary'}><a href="https://metamask.io">GET METAMASK</a></Button>
+              </>}
+
+          </li>
+          <li>
+          <Button type={'secondary'}>
+                <button className="font-extrabold" onClick={requestConnection}>
+                  CONFIGURE ID
+                </button>
+              </Button>
+          </li>
+
+        </ul>
         </div>
+        
+        <div className="flex justify-end">
+          <Toast message={notificationMessage} />
+        </div>
+      </nav>
+      <div className="text-left rounded-md ml-20 mt-9">
+
+        
       </div>
     </>
   );

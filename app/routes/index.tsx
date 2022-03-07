@@ -134,7 +134,7 @@ export default function Index() {
               <div className="flex flex-col">
                 <div className="text-xl mt-9 font-light">
                   <p>
-                    Please connect to MetaMask to view your Pega.
+                    Please connect to MetaMask or enter your ID manually to view your Pega.
                   </p>
                 </div>
               </div>
