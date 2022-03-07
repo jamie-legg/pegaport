@@ -19,6 +19,12 @@ const Nav = ({ connectionSet }: INavProps) => {
   const [navConnection, setNavConnection] = useState("");
   const [notificationMessage, setNotificationMessage] = useState("");
 
+  const toggleIdVisibility = useMemo(() => {
+    return () => {
+      setVisibleId(visibleId === "HIDDEN" ? navConnection : "HIDDEN");
+    };
+  }, [visibleId]);
+
 
   useEffect(() => {
     //check window location for active link
@@ -131,7 +137,11 @@ const Nav = ({ connectionSet }: INavProps) => {
 
         </div>
         <div className="flex justify-start mt-3 mr-20">
-          <Button><CreditCardIcon className="inline-block w-5 mr-2"></CreditCardIcon>ID: {visibleId}</Button>
+          <Button>
+            <button onClick={toggleIdVisibility}>
+            <CreditCardIcon className="inline-block w-5 mr-2"></CreditCardIcon>ID: {visibleId}
+            </button>
+            </Button>
           {hasMetaMask && navConnection.length > 5 ?
             <Button type={'danger'}>
               <button className="font-extrabold" onClick={disconnect}>
