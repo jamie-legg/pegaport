@@ -21,14 +21,28 @@ export default function PegaId() {
     
     return (
       <main className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 h-screen w-full">
-        <h1 className="text-9x1">{JSON.stringify(pega)}</h1>
         <div className="flex">
           <img className="w-96" src={pega.pega.design.avatar} alt="" />
           <div>
             <Title>{pega.pega.name}</Title>
-            <p>{pega.pega.bloodLine}</p>
-            <p>{new Date(pega.pega.bornTime*1000).toDateString()}</p>
-            {pega.pega.canRace ? <p>Ready to race</p> : <Timer time={canRaceAt}/>}
+            <p>Pega ID: {pega.pega.id}</p>
+            <p>Birth Date: {new Date(pega.pega.bornTime*1000).toLocaleDateString()}</p>
+            <p>Total Races: {pega.pega.total_races}</p>
+            {pega.pega.canRace && pega.pega.energy != 0 ? <p>Ready to race</p> : pega.pega.canRace ? <p>No energy left</p> : <Timer time={canRaceAt}/>}
+            <span>available energy: </span>
+            <span className={
+              `${pega.pega.energy===25? `text-red-500` : `text-white`}`
+            }>{pega.pega.energy===25? "! ":""}{pega.pega.energy}{pega.pega.energy===25? " !":""}
+            </span>
+            <p>BloodLine: {pega.pega.bloodLine}</p>
+            <p>Gender: {pega.pega.gender} </p>
+              <ul>
+                <li><a href={`/pega/${pega.pega.fatherId}`}>Pega Father</a></li>
+                <li><a href={`/pega/${pega.pega.motherId}`}>Pega Mother</a></li>
+              </ul>
+            <p>
+            
+            </p>
           </div>
         </div>
 

@@ -12,7 +12,7 @@ interface IEarnings {
 export interface ISpecificPega {
     pega:{
         id:number
-        name:"Biohazard | MADE"
+        name:string
         class:number
         ownerId:number
         renterId:number
