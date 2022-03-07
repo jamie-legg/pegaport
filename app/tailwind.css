@@ -1176,11 +1176,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(127 29 29 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-slate-800:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
-}
-
 .hover\:text-5xl:hover {
   font-size: 3rem;
   line-height: 1;

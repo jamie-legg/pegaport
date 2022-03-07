@@ -8,12 +8,13 @@ const Family = () => {
             <Nav />
             <div className="py-20 mx-20 rounded-md">
                 <div className="flex">
-                    <Heading>Family Tree
-                        </Heading>
-                        <Button>Load Family</Button>
+                    <Heading >
+                        Family Tree
+                    </Heading>
+                    <Button>Load Family</Button>
                 </div>
             </div>
-            
+
         </div>
     )
 }
