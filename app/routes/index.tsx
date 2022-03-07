@@ -7,7 +7,7 @@ import Button from "~/components/button";
 import Title from "~/components/title";
 import Heading from "~/components/heading";
 import PegaGrid from "~/components/pegaGrid";
-import { utils } from 'ethers';
+
 import { CreditCardIcon } from '@heroicons/react/solid'
 import Nav from "~/components/nav";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -36,12 +36,11 @@ export default function Index() {
   const [pgxPrice, setPgxPrice] = useState("0.2");
   const [pega, setPega] = useState<IPega[]>([]);
   const [hasMetaMask, setHasMetaMask] = useState(false);
-  const [connection, setConnection] = useState("");
-  const [introMessage, setIntroMessage ] = useState("Connect your wallet to see your pega flock or search for a specific pega by ID.");
-  const [authIntroMessage, setAuthIntroMessage ] = useState("");
+  const [ connection, setConnection ] = useState("");
   const visEarningsTotal = useMemo(() => {
     let t = 0;
-    pega.forEach(pega => {
+    if(pega.length > 0) {
+      pega.forEach(pega => {
       let today = new Date();
       let born = new Date(pega.bornTime*1000);
       let days = Math.floor((today.getTime() - born.getTime()) / (24*60*60*1000))
@@ -50,85 +49,36 @@ export default function Index() {
         t += average;
       }
     });
+  }
     return t;
-  }, [pega]);
+  }, [pega, connection]);
+
+  
+  useEffect(() => {
+    if (connection.length > 5) {
+      getPega(connection).then(pega => {
+        setPega(pega);
+      });
+      setVisibleId(connection);
+    }
+  }, [connection]);
 
 
   useEffect(() => {
     getPrices().then(prices => {
       //to 3 decimal places
-
       setVisPrice(prices["0xcc1b9517460d8ae86fe576f614d091fca65a28fc"].price.toFixed(3));
       setPgxPrice(prices["0xc1c93d475dc82fe72dbc7074d55f5a734f8ceeae"].price.toFixed(3));
     });
-
-
-
-    getId().then(id => {
-      setVisibleId(id);
-    });
-    const isMetaMaskInstalled = () => {
-      //Have to check the ethereum binding on the window object to see if it's installed
-      let testWindow: any = window;
-      return Boolean(testWindow.ethereum && testWindow.ethereum.isMetaMask);
-    };
-    setHasMetaMask(isMetaMaskInstalled());
   }, []);
 
-  useEffect(() => {
-    if (hasMetaMask) {
-      //Have to check the ethereum binding on the window object to see if it's installed
-      let tw: any = window;
-      tw.ethereum.request({
-        method: 'eth_requestAccounts'
-      }).then((accounts: any) => {
-        if (accounts) setConnection(utils.getAddress(accounts[0]));
-      });
-    }
-  }, [hasMetaMask]);
 
-  useEffect(() => {
-    if (connection) {
-      let racingPega = 0;
-      let restingPega = 0;
-      let waitingPega = 0;
-      getPega(connection).then(pega => {
-        setPega(pega);
-      });
-      setAuthIntroMessage(`Welcome back. You have ${racingPega} pega(s) racing, ${restingPega} pega(s) resting, and ${waitingPega} pega(s) waiting.`);
-      //visible id is the last 4 digits of the connection id
-      setVisibleId(connection);
-    }
-  }, [connection]);
 
   return (
     <div className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 min-h-screen w-full">
-      <Nav />
-      <div className="py-20 mx-auto rounded-md w-max">
-        <div className="flex">
-          <img src="/pegaport.png" alt="logo" className="w-16 h-16 mr-3" />
-          <Title>pegaport</Title><span className="inline-block mt-10 font-extralight">by MAD£</span>
-          
-        </div>
-        <div className="flex justify-end mt-3">
-          <Button><CreditCardIcon className="inline-block w-5 mr-2"></CreditCardIcon>ID: {visibleId}</Button>
-          {hasMetaMask && connection.length > 5 ?
-            <Button type={'danger'}><button className="font-extrabold" onClick={() => {
-              let tw: any = window;
-              //disconnect from metamask
-              setConnection("");
-              setVisibleId("...");
-            }}>DISCONNECT</button></Button> : <Button type={'secondary'}><button className="font-extrabold" onClick={() => {
-              let tw: any = window;
-              tw.ethereum.request({
-                method: 'eth_requestAccounts'
-              }).then((accounts: any) => {
-                if (accounts) setConnection(accounts[0]);
-              });
-
-            }}>CONNECT WITH METAMASK</button></Button>}
-        </div>
-        <div className="flex w-full justify-between">
+      <Nav connectionSet={setConnection} />
+      <div className="py-3 mx-20 rounded-md w-max">
+        <div className="grid grid-cols-1 lg:grid-cols-2 w-max justify-between 2xl:grid-cols-3">
           <div className="">
             <Heading style={'small'} title={'token prices'}>
               <div className="flex flex-col">
@@ -152,9 +102,9 @@ export default function Index() {
               </div>
             </Heading>
           </div>
-          <div className="">
+          <div className="col-span-1 lg:col-span-2 xl:col-span-1">
           <Heading style={'small'} title={'quick search'}>
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-center">
               <div className="flex">
                 <Form>
                 <div className="text-xl flex font-light">
@@ -172,9 +122,23 @@ export default function Index() {
           </div>
         </div>
         <ul>
-          <li className="w-max">
-
-            <PegaGrid pegas={pega} />
+          <li className="w-max flex justify-center">
+            {connection.length > 5 && pega.length > 0 ? 
+              <PegaGrid pegas={pega} /> :
+              connection.length > 5 ?
+              <div className="text-center mt-9 text-xl font-light">
+                <div>
+                  <Typist>...</Typist>
+                </div>
+              </div> :
+              <div className="flex flex-col">
+                <div className="text-xl mt-9 font-light">
+                  <p>
+                    Please connect to MetaMask to view your Pega.
+                  </p>
+                </div>
+              </div>
+              }
           </li>
         </ul>
       </div>
