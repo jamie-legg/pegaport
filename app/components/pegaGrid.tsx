@@ -20,7 +20,7 @@ const PegaGrid = ({ pegas }: IPegaGridProps) => {
 
 
     return (
-        <ul className="">
+        <ul className="justify-center">
           <li className="grid grid-cols-6 font-extrabold mt-9">
           <span>NAME</span>
           <span>WIN RATE</span>

@@ -9,7 +9,7 @@ import Heading from "~/components/heading";
 import PegaGrid from "~/components/pegaGrid";
 
 import { CreditCardIcon } from '@heroicons/react/solid'
-import Nav from "~/components/nav";
+import Nav, { IConnection } from "~/components/nav";
 import { SearchIcon } from "@heroicons/react/outline";
 import Typist from "react-typist";
 
@@ -30,13 +30,13 @@ export default function Index() {
   let transition = useTransition();
   let busy = transition.submission;
   const data = useActionData();
-  
+
   const [visibleId, setVisibleId] = useState("...");
   const [visPrice, setVisPrice] = useState("0.2");
   const [pgxPrice, setPgxPrice] = useState("0.2");
   const [pega, setPega] = useState<IPega[]>([]);
   const [hasMetaMask, setHasMetaMask] = useState(false);
-  const [ connection, setConnection ] = useState("");
+  const [ connections, setConnections ] = useState<IConnection[]>([]);
   const visEarningsTotal = useMemo(() => {
     let t = 0;
     if(pega.length > 0) {
@@ -51,17 +51,16 @@ export default function Index() {
     });
   }
     return t;
-  }, [pega, connection]);
+  }, [pega, connections]);
 
   
   useEffect(() => {
-    if (connection.length > 5) {
-      getPega(connection).then(pega => {
+    if (connections.length > 0) {
+      getPega(connections[0].id).then(pega => {
         setPega(pega);
       });
-      setVisibleId(connection);
     }
-  }, [connection]);
+  }, [connections]);
 
 
   useEffect(() => {
@@ -75,10 +74,11 @@ export default function Index() {
 
 
   return (
+    
     <div className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 min-h-screen w-full">
-      <Nav connectionSet={setConnection} />
-      <div className="py-3 mx-20 rounded-md w-max">
-        <div className="grid grid-cols-1 lg:grid-cols-2 w-max justify-between 2xl:grid-cols-3">
+      <Nav connectionSet={setConnections} />
+      <div className="py-3 mx-20 rounded-md">
+        <div className="grid grid-cols-1 lg:grid-cols-2 justify-between 2xl:grid-cols-3">
           <div className="">
             <Heading style={'small'} title={'token prices'}>
               <div className="flex flex-col">
@@ -102,16 +102,18 @@ export default function Index() {
               </div>
             </Heading>
           </div>
-          <div className="col-span-1 lg:col-span-2 xl:col-span-1">
-          <Heading style={'small'} title={'quick search'}>
+          <div className="col-span-1 mx-auto px-9 py-3 mt-3 rounded-2xl bg-slate-900 shadow-2xl lg:col-span-2 xl:col-span-1">
+          <Heading style={'small'} title={'search'}>
             <div className="flex flex-col justify-center">
               <div className="flex">
                 <Form>
-                <div className="text-xl flex font-light">
-                  PEGA ID: <input name="pega_id" type={"text"} className="ml-2 font-extrabold text-2xl h-max bg-fuchsia-300 bg-opacity-25 rounded-lg"></input>
-                <button type="submit" className="mx-2 font-bold hover:text-fuchsia-200 transition-all uppercase">
-                  <SearchIcon className="inline-block w-5 mr-3"></SearchIcon>
-                  {busy ? <Typist>...</Typist> : "search"}</button>
+                <div className="grid grid-cols-3 font-light">
+                  <input placeholder="Pega ID (eg. 225222)" name="pega_id" type={"text"} className="pl-2 col-span-2 font-light text-xl h-max nm-inset-slate-800 p-1 rounded-lg">
+                  </input>
+                <button type="submit" className="mx-2 col-span-1 rounded-md px-3 font-bold nm-convex-slate-900 transition-all uppercase">
+                  
+                  {busy ? <Typist>...</Typist> : <SearchIcon className="inline-block w-5 mr-3"></SearchIcon>}
+                </button>
                 </div>
                 </Form>
               </div>
@@ -123,9 +125,9 @@ export default function Index() {
         </div>
         <ul>
           <li className="w-max flex justify-center">
-            {connection.length > 5 && pega.length > 0 ? 
+            {connections.length > 0 && pega.length > 0 ? 
               <PegaGrid pegas={pega} /> :
-              connection.length > 5 ?
+              connections.length > 0 ?
               <div className="text-center mt-9 text-xl font-light">
                 <div>
                   <Typist>...</Typist>

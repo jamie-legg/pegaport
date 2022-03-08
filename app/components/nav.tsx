@@ -6,43 +6,49 @@ import Title from "./title";
 import { utils } from 'ethers';
 import Toast from "./notification";
 import MobileNav from "./mobileNav";
+import IDModal from "./idModal";
+
+export interface IConnection {
+  id: string;
+  name: string;
+  provider: string;
+}
+
 
 interface INavProps {
-  connectionSet?: any;
+  connectionSet?: React.Dispatch<React.SetStateAction<IConnection[]>>;
 }
 
 const Nav = ({ connectionSet }: INavProps) => {
-  const [isHome, setIsHome] = useState(true);
   const activeStyle = "text-5xl font-bold";
-  const [visibleId, setVisibleId] = useState("...");
   const [hasMetaMask, setHasMetaMask] = useState(false);
-  const [navConnection, setNavConnection] = useState("");
+  const [navConnection, setNavConnection] = useState<IConnection[]>([]);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [idModalOpen, setIdModalOpen] = useState(false);
 
-  const toggleIdVisibility = useMemo(() => {
-    return () => {
-      setVisibleId(visibleId === "HIDDEN" ? navConnection : "HIDDEN");
-    };
-  }, [visibleId]);
+  const openIdModal = useCallback(() => {
+    setIdModalOpen(true);
+  }, []);
 
+  const closeIdModal = useCallback((connections: IConnection[]) => {
+    setNavConnection(connections);
+    setIdModalOpen(false);
+  }, []);
 
   useEffect(() => {
-    //check window location for active link
-    const path = window.location.pathname;
-    if (path.includes("/search")) {
-      setIsHome(false);
-    }
     const isMetaMaskInstalled = () => {
-      //Have to check the ethereum binding on the window object to see if it's installed
       let testWindow: any = window;
       return Boolean(testWindow.ethereum && testWindow.ethereum.isMetaMask);
 
     };
-    const test_id = localStorage.getItem("pegaport_id");
+    const test_id = localStorage.getItem("pegaport_obj");
+    console.log("test_id", test_id);
+    
     if (test_id) {
-      setNavConnection(utils.getAddress(test_id));
-      if(connectionSet) connectionSet(utils.getAddress(test_id));
-      setVisibleId(utils.getAddress(test_id));
+      if(JSON.parse(test_id).length > 0 && JSON.parse(test_id)[0].id.length > 0) {
+        if(connectionSet) connectionSet(JSON.parse(test_id));
+        setNavConnection(JSON.parse(test_id));
+      }
     }
 
     setHasMetaMask(isMetaMaskInstalled());
@@ -50,16 +56,33 @@ const Nav = ({ connectionSet }: INavProps) => {
 
   const requestConnection = useCallback(async () => {
     let tw: any = window;
-    console.log("connecting");
     try {
       const accounts = await tw.ethereum.request({
         method: 'eth_requestAccounts'
       })
       if (accounts) {
-        setNavConnection(utils.getAddress(accounts[0]));
-        connectionSet(utils.getAddress(accounts[0]));
-        setVisibleId("HIDDEN");
-        localStorage.setItem("pegaport_id", utils.getAddress(accounts[0]));
+        console.log("accounts", accounts);
+        console.log([...navConnection, {
+          name: 'unknown user',
+          id: utils.getAddress(accounts[0]),
+          provider: 'MetaMask'
+        }]);
+        
+        setNavConnection([...navConnection, {
+          name: 'unknown user',
+          id: utils.getAddress(accounts[0]),
+          provider: 'MetaMask'
+        }]);
+        if(connectionSet) connectionSet([...navConnection, {
+          name: 'unknown user',
+          id: utils.getAddress(accounts[0]),
+          provider: 'MetaMask'
+        }]);
+        localStorage.setItem("pegaport_obj", JSON.stringify([...navConnection, {
+          name: 'unknown user',
+          id: utils.getAddress(accounts[0]),
+          provider: 'MetaMask'
+        }]));
       }
     }
     catch (e: any) {
@@ -70,33 +93,68 @@ const Nav = ({ connectionSet }: INavProps) => {
   }, []);
 
   const disconnect = useCallback(() => {
-      localStorage.removeItem("pegaport_id");
-      connectionSet("...");
+      localStorage.removeItem("pegaport_obj");
+      if(connectionSet) connectionSet([]);
       //disconnect from metamask
-      setNavConnection("");
-      setVisibleId("...");
+      setNavConnection([]);
   }, []);
 
 
   return (
     <>
+    
       <nav>
         <div className="bg-slate-900">
-          
-        <div className="flex w-full justify-start">
         <div className="md:hidden">
           <MobileNav />
+          <IDModal isOpen={idModalOpen} onClose={closeIdModal} connection={navConnection} />
         </div>
-          <img src="/pegaport.png" alt="logo" className="w-16 h-16 mr-3" />
-          <Title>pegaport</Title><span className="inline-block mt-10 font-extralight">by MAD£</span>
+        <div className="flex w-full justify-start">
 
+          <img src="/pegaport.png" alt="logo" className="w-16 h-16 mr-3" />
+          <Title>pegaport</Title>
+          <div className="w-full flex justify-end">
+          <div className="w-96">
+          </div>
+          <div className="">
+          {hasMetaMask && navConnection.length > 0 ?
+           <button className="font-extrabold" onClick={disconnect}>
+           <Button type={'danger'}>
+              
+                DISCONNECT
+              
+            </Button>
+            </button> : hasMetaMask ?
+            <>
+            <button className="font-extrabold" onClick={requestConnection}>
+              <Button type={'secondary'}>
+                
+                  CONNECT WITH METAMASK
+                
+              </Button>
+              </button>
+              </> : <><Button type={'secondary'}><a href="https://metamask.io">GET METAMASK</a></Button>
+              </>}
+
+          </div>
+          <div>
+          <button className="font-extrabold" onClick={openIdModal}>
+          <Button type={'secondary'}>
+                
+                  CONFIGURE ID
+               
+              </Button>
+              </button>
+          </div>
+
+          </div>
         </div>
         
-        <ul className="hidden md:flex uppercase xl:space-x-10 space-x-5 2xl:space-x-20 text-2xl font-bold mx-20 pt-2 bg-slate-900 shadow-2xl">
+        <ul className="hidden md:flex uppercase xl:space-x-10 space-x-5 2xl:space-x-20 text-2xl font-bold mx-20 pt-2 shadow-2xl pb-4">
           <li>
             <NavLink
               to="/"
-              className={({ isActive }) =>
+              className={({ isActive }: any) =>
                 `${isActive ? activeStyle : undefined} transition-all hover:text-5xl hover:font-bold`
               }
             >
@@ -106,7 +164,7 @@ const Nav = ({ connectionSet }: INavProps) => {
           <li>
             <NavLink
               to="/search"
-              className={({ isActive }) =>
+              className={({ isActive }: any) =>
                 `${isActive ? activeStyle : undefined} transition-all hover:text-5xl hover:font-bold`
               }
             >
@@ -131,37 +189,6 @@ const Nav = ({ connectionSet }: INavProps) => {
             >
               security
             </NavLink>
-          </li>
-          <li className="text-lg">
-          <Button>
-            <button onClick={toggleIdVisibility}>
-            <CreditCardIcon className="inline-block w-5 mr-2"></CreditCardIcon>ID: {visibleId}
-            </button>
-            </Button>
-          </li>
-          <li className="text-lg">
-          {hasMetaMask && navConnection.length > 5 ?
-            <Button type={'danger'}>
-              <button className="font-extrabold" onClick={disconnect}>
-                DISCONNECT
-              </button>
-            </Button> : hasMetaMask ?
-            <>
-              <Button type={'secondary'}>
-                <button className="font-extrabold" onClick={requestConnection}>
-                  CONNECT WITH METAMASK
-                </button>
-              </Button>
-              </> : <><Button type={'secondary'}><a href="https://metamask.io">GET METAMASK</a></Button>
-              </>}
-
-          </li>
-          <li>
-          <Button type={'secondary'}>
-                <button className="font-extrabold" onClick={requestConnection}>
-                  CONFIGURE ID
-                </button>
-              </Button>
           </li>
 
         </ul>

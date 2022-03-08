@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
-import { MenuAlt2Icon } from '@heroicons/react/outline'
+import { MenuAlt2Icon, MenuAlt3Icon } from '@heroicons/react/outline'
 import { Link } from 'remix'
 
 const solutions = [
@@ -30,7 +30,7 @@ const MobileNav = () => {
             )}
           >
             <span></span>
-            <MenuAlt2Icon
+            <MenuAlt3Icon
               className={classNames(open ? 'text-slate-600' : 'text-slate-400', 'ml-2 h-12 w-12 group-hover:text-slate-500')}
               aria-hidden="true"
             />
