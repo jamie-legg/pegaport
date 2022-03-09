@@ -17,14 +17,14 @@ const IDModal = ({ isOpen, onClose, connection }: IIDModalProps) => {
 
   useEffect(() => {
     setOpen(isOpen)
-    console.log(connections);
-    
-    }, [isOpen])
+    setConnections(connection);
 
-    const close = () => {
-        setOpen(false)
-        onClose(connections)
-    }
+  }, [connections, isOpen])
+
+  const close = () => {
+    setOpen(false)
+    onClose(connections)
+  }
 
   const cancelButtonRef = useRef(null)
 
@@ -64,15 +64,15 @@ const IDModal = ({ isOpen, onClose, connection }: IIDModalProps) => {
                     <span>YOUR IDs</span>
                   </Dialog.Title>
                   <div className="mt-2">
-                    {connections.map((connection, index) => (
-                      <div key={index}>
-                        <div className="flex items-center justify-between">
-                        <span className="font-medium">{connection.name}</span>
-                        <span className="text-sm">{connection.id}</span>
-                        </div>
+                    {connection.map((c, index) => (
+                      <div className='nm-convex-slate-900 px-6 rounded-md' key={index}>
                         <div className="mt-2">
-                          <span className="text-sm">{connection.provider}</span>
+                          <span className="text-sm font-bold">{c.name} <span className='font-light'>{c.provider}</span></span>
                         </div>
+                        <div className="flex items-center justify-between">
+                          <input value={c.id} placeholder="Wallet ID (0x...)" name="pega_id" type={"text"} className="w-full col-span-2 font-light text-xl h-max nm-inset-slate-800 p-1 rounded-lg"></input>
+                        </div>
+
                       </div>
                     ))}
 

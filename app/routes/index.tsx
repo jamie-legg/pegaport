@@ -75,10 +75,10 @@ export default function Index() {
 
   return (
     
-    <div className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 min-h-screen w-full">
+    <div className="nm-concave-slate-800 text-white h-full lg:h-screen w-full xl:overflow-clip">
       <Nav connectionSet={setConnections} />
-      <div className="py-3 mx-20 rounded-md">
-        <div className="grid grid-cols-1 lg:grid-cols-2 justify-between 2xl:grid-cols-3">
+      <div className="py-3 mx-20 rounded-md xl:flex">
+        <div className="md:flex xl:flex-col justify-start">
           <div className="">
             <Heading style={'small'} title={'token prices'}>
               <div className="flex flex-col">
@@ -87,12 +87,7 @@ export default function Index() {
                   <div className="text-xl font-light">PGX: <span className="font-extrabold text-2xl italic">{pgxPrice}</span></div>
                 </div>
               </div>
-
-
             </Heading>
-          </div>
-
-          <div className="">
             <Heading style={'small'} title={'my stats'}>
             <div className="flex flex-col">
                 <div>
@@ -102,8 +97,9 @@ export default function Index() {
               </div>
             </Heading>
           </div>
-          <div className="col-span-1 mx-auto px-9 py-3 mt-3 rounded-2xl bg-slate-900 shadow-2xl lg:col-span-2 xl:col-span-1">
-          <Heading style={'small'} title={'search'}>
+
+          <div className="col-span-1 mx-auto lg:col-span-2 xl:col-span-1">
+          <Heading style={'small'} title={'quick search'}>
             <div className="flex flex-col justify-center">
               <div className="flex">
                 <Form>
@@ -117,18 +113,30 @@ export default function Index() {
                 </div>
                 </Form>
               </div>
+              <div className="h-64 nm-flat-slate-900 mt-3">
+                <div className="m-3">
+                  <Typist avgTypingDelay={10}><code>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Donec euismod, nisi eget consectetur ultrices,
+                  nisl nunc aliquet nunc, eget tincidunt nisl nunc
+                  </code>
+                  </Typist>
+                </div>
+
+              </div>
             </div>
 
 
           </Heading>
           </div>
         </div>
-        <ul>
-          <li className="w-max flex justify-center">
+        <ul className="">
+          <li className="2xl: ml-6 flex justify-center">
             {connections.length > 0 && pega.length > 0 ? 
+              
               <PegaGrid pegas={pega} /> :
               connections.length > 0 ?
-              <div className="text-center mt-9 text-xl font-light">
+              <div className="text-center mt-6 text-xl font-light">
                 <div>
                   <Typist>...</Typist>
                 </div>

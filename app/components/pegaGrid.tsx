@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IPega } from "~/pega";
 import { Score } from "./score";
 import Timer from "./timer";
+import Title from './title';
 
 interface IPegaGridProps {
     pegas: IPega[];
@@ -29,6 +30,9 @@ const PegaGrid = ({ pegas }: IPegaGridProps) => {
           <span>ENERGY</span>
           <span>STATUS</span>
           </li>
+          <div className='overflow-auto h-128'>
+
+          
         {localPega.map((pega: IPega, index: number) => {
           let today = new Date();
           let racingAt = new Date();
@@ -47,6 +51,7 @@ const PegaGrid = ({ pegas }: IPegaGridProps) => {
               <PegaItem pega={pega} index={index} average={average} racingAt={racingAt}  />
           </div>
         )})}
+        </div>
       </ul>
     )
 }

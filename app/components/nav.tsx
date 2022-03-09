@@ -1,4 +1,4 @@
-import { CreditCardIcon } from "@heroicons/react/outline";
+import { CreditCardIcon, FingerPrintIcon, StatusOfflineIcon } from "@heroicons/react/outline";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, NavLink } from "remix";
 import Button from "./button";
@@ -7,6 +7,7 @@ import { utils } from 'ethers';
 import Toast from "./notification";
 import MobileNav from "./mobileNav";
 import IDModal from "./idModal";
+import { LogoutIcon } from "@heroicons/react/solid";
 
 export interface IConnection {
   id: string;
@@ -104,7 +105,7 @@ const Nav = ({ connectionSet }: INavProps) => {
     <>
     
       <nav>
-        <div className="bg-slate-900">
+        <div className="nm-convex-slate-800">
         <div className="md:hidden">
           <MobileNav />
           <IDModal isOpen={idModalOpen} onClose={closeIdModal} connection={navConnection} />
@@ -114,14 +115,22 @@ const Nav = ({ connectionSet }: INavProps) => {
           <img src="/pegaport.png" alt="logo" className="w-16 h-16 mr-3" />
           <Title>pegaport</Title>
           <div className="w-full flex justify-end">
-          <div className="w-96">
-          </div>
+          <button className="font-extrabold" onClick={openIdModal}>
+          <Button type={'secondary'}>
+                
+          <span className="">
+                <FingerPrintIcon className="w-6 h-6 inline-block" />
+              </span>
+              </Button>
+              </button>
           <div className="">
           {hasMetaMask && navConnection.length > 0 ?
            <button className="font-extrabold" onClick={disconnect}>
            <Button type={'danger'}>
-              
-                DISCONNECT
+              <span className="">
+                <LogoutIcon className="w-6 h-6 inline-block" />
+              </span>
+                
               
             </Button>
             </button> : hasMetaMask ?
@@ -138,13 +147,6 @@ const Nav = ({ connectionSet }: INavProps) => {
 
           </div>
           <div>
-          <button className="font-extrabold" onClick={openIdModal}>
-          <Button type={'secondary'}>
-                
-                  CONFIGURE ID
-               
-              </Button>
-              </button>
           </div>
 
           </div>

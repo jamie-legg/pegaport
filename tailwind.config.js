@@ -4,7 +4,14 @@ module.exports = {
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],
       },
-      extend: {},
+      extend: {
+        backgroundImage: theme => ({
+          'hero-pattern': "url('/hero-pattern.svg')",
+         }),
+         height: {
+          '128': '32rem',
+        }
+      },
     },
     variants: {},
     plugins: [require('tailwindcss-neumorphism')],
