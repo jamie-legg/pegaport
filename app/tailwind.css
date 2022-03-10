@@ -1805,6 +1805,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   box-shadow: inset 0.2em 0.2em calc(0.2em * 2) #323C4A, inset calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) #596A83;
 }
 
+.focus\:nm-inset-slate-700:focus {
+  background: #334155;
+  box-shadow: inset 0.2em 0.2em calc(0.2em * 2) #242E3C, inset calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) #40516A;
+}
+
 @media (min-width: 640px) {
   .sm\:absolute {
     position: absolute;

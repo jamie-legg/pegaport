@@ -1,7 +1,7 @@
 import { SearchIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import Typist from "react-typist";
-import { getSpecificPega } from "~/pega";
+import { getPega, getSpecificPega, IPega } from "~/pega";
 
 const PegaSearch = () => {
     const [searchPegaId, setSearchPegaId] = useState("");
@@ -11,11 +11,21 @@ const PegaSearch = () => {
         if (searchPegaId.length > 0) {
             setSearchPegaResultString(`Searching for ${searchPegaId}...`);
             getSpecificPega(searchPegaId).then(({ pega }) => {
-                let ageDays = Math.floor((new Date().getTime() - new Date(pega.bornTime * 1000).getTime()) / (24 * 60 * 60 * 1000));
-                setSearchPegaResultString(`NAME: ${pega.name}/AGE (days): ${ageDays}/OWNER: ${pega.owner.name} \n
-                `);
-            }
-            );
+                getPega(pega.owner.address).then((detailedPega) => {
+                    //find the pega in the detailed pega
+                    const detailedPegaIndex = detailedPega.findIndex((p:IPega) => p.id === pega.id)
+                    if (detailedPegaIndex > -1) {
+                        let s = ""
+                        let pr = detailedPega[detailedPegaIndex];
+                        let today = new Date();
+                        let born = new Date(pr.bornTime * 1000);
+                        let days = Math.floor((today.getTime() - born.getTime()) / (24 * 60 * 60 * 1000))
+                        let visDay = Math.floor((pr.gold * 105 + pr.silver * 44 + pr.bronze * 26 || 0) / days) || 0;
+                        s += `NAME: ${pr.name}~BREED: ${pr.bloodLine}~-~WINRATE: ${pr.winRate}~VIS(/day): ${visDay}~RACES: ${pr.totalRaces}~AGE(days): ${days}~RATING: ${Math.ceil(visDay/100)}/5`
+                        setSearchPegaResultString(s);   
+                    }
+                });
+            });
         }
     }, [searchPegaId])
 
@@ -30,7 +40,7 @@ const PegaSearch = () => {
                     }}
                 >
                     <div className="grid grid-cols-3 font-light">
-                        <input placeholder="Pega ID (eg. 225222)" name="pega_id" type={"text"} className="pl-2 col-span-2 font-light text- h-max nm-inset-slate-800 p-1 rounded-lg">
+                        <input placeholder="Pega ID (eg. 225222)" name="pega_id" type={"text"} className="pl-2 col-span-2 font-light text- h-max nm-inset-slate-800 focus:nm-inset-slate-700 p-1 rounded-lg">
                         </input>
                         <button type="submit" className="mx-2 col-span-1 rounded-md px-3 font-bold nm-convex-slate-900 transition-all uppercase">
 
@@ -43,7 +53,7 @@ const PegaSearch = () => {
                                     <Typist className="flex-col" key={searchPegaResultString} avgTypingDelay={10}><code>
                                     
                                         {searchPegaResultString ?
-                                         searchPegaResultString.split("/").map((line, i) => {
+                                         searchPegaResultString.split("~").map((line, i) => {
                                             return <div key={i}>{line}<br />{i}</div>
                                          }
                                             ) : <span>Enter a valid Pega ID to begin.</span>}
