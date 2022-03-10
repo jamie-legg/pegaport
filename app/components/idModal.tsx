@@ -3,7 +3,8 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import Heading from './heading'
-import { IConnection } from './nav'
+import { IConnection } from './navbar'
+import Button from './button'
 
 interface IIDModalProps {
   isOpen: boolean;
@@ -57,7 +58,7 @@ const IDModal = ({ isOpen, onClose, connection }: IIDModalProps) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="relative inline-block align-bottom bg-slate-900 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div className="relative w-1/2 inline-block align-bottom nm-convex-slate-800 rounded-2xl px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-right sm:p-6">
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left text-white">
                   <Dialog.Title as="h3" className="text-2xl leading-6 font-bold">
@@ -65,12 +66,20 @@ const IDModal = ({ isOpen, onClose, connection }: IIDModalProps) => {
                   </Dialog.Title>
                   <div className="mt-2">
                     {connection.map((c, index) => (
-                      <div className='nm-convex-slate-900 px-6 rounded-md' key={index}>
+                      <div className='nm-convex-slate-800 px-6 rounded-md w-256' key={index}>
                         <div className="mt-2">
                           <span className="text-sm font-bold">{c.name} <span className='font-light'>{c.provider}</span></span>
                         </div>
                         <div className="flex items-center justify-between">
                           <input value={c.id} placeholder="Wallet ID (0x...)" name="pega_id" type={"text"} className="w-full col-span-2 font-light text-xl h-max nm-inset-slate-800 p-1 rounded-lg"></input>
+                        </div>
+                        <div className="flex justify-end">
+                        <Button type="danger">
+                            Delete
+                          </Button>
+                          <Button type="secondary">
+                            Edit
+                          </Button>
                         </div>
 
                       </div>
@@ -82,11 +91,14 @@ const IDModal = ({ isOpen, onClose, connection }: IIDModalProps) => {
               <div className="mt-5 sm:mt-4 sm:ml-10 sm:pl-4 sm:flex">
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className=""
                   onClick={close}
                   ref={cancelButtonRef}
                 >
-                  OK
+                  <Button>
+                  SAVE
+                  </Button>
+                  
                 </button>
               </div>
             </div>

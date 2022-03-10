@@ -9,8 +9,11 @@ module.exports = {
           'hero-pattern': "url('/hero-pattern.svg')",
          }),
          height: {
-          '128': '32rem',
-        }
+          '256': '44rem',
+        },
+        width: {
+          '256': '44rem',
+        },
       },
     },
     variants: {},

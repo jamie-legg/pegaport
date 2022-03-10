@@ -1,4 +1,4 @@
-import { ArrowSmUpIcon, ArrowSmDownIcon, EyeIcon } from "@heroicons/react/outline";
+import { ArrowSmUpIcon, ArrowSmDownIcon, EyeIcon, ClockIcon, ArrowsExpandIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
 import { Link } from "remix";
 import { IPega } from "~/pega";
@@ -19,11 +19,9 @@ export function PegaItem({
   racingAt
 }: IPegaItem) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   return <li
-  onClick={() => {
-    setIsExpanded(!isExpanded);
-  }}
-  className={"nm-concave-slate-800 transition-all py-2 my-6 mx-2 px-2 rounded-md font-bold grid grid-cols-6" + ` ${isExpanded? "h-96": "h-24"}`} key={pega.id}>
+  className={"nm-concave-slate-800 transition-all pt-9 pb-6 my-6 mx-2 px-2 rounded-md font-bold grid grid-cols-6" + ` ${isExpanded? "h-96": "h-24"}`} key={pega.id}>
             <Link className="text-left pr-3" to={"pega/" + pega.id.toString()}>{index + 1}. {pega.name}<span className={`${pega.gender === "Male" ? `text-blue-600` : `text-pink-500`} ml-2 text-xs`}>({pega.breedCount}/7{pega.gender === "Male" ? "M" : "F"})</span></Link>
             <span className={index === 0 ? "text-amber-300" : index === 1 ? "text-slate-300" : ""}>{pega.winRate * 100}%</span>
             <span className="flex">{average}</span>
@@ -34,22 +32,28 @@ export function PegaItem({
             </span> : null}
             </span>
             <span>
-              {pega.service === "RENT_SERVICE" ? "Renting" : "Resting"}
-              <div className="w-full flex justify-end">
+              <div className="w-full mb-5 flex justify-end">
           <button className="font-extrabold">
+          <Link to={"pega/" + pega.id.toString()}>
           <Button type={'secondary'}>
                 
-          <span className="">
-                <EyeIcon className="w-6 h-6 inline-block" />
+          <span onClick={() => setIsLoading(true)} className="">
+                {isLoading? <ClockIcon className="w-6 h-6 inline-block"></ClockIcon> :
+                <EyeIcon className="w-6 h-6 inline-block" />}
               </span>
               </Button>
+              </Link>
     </button>
-    <button className="font-extrabold">
+    <button
+      onClick={() => {
+        setIsExpanded(!isExpanded);
+      }}
+    className="font-extrabold">
           <Button type={'secondary'}>
                 
           <span className="">
             {isExpanded?<ArrowSmUpIcon className="w-6 h-6 inline-block" /> : 
-            <ArrowSmDownIcon className="w-6 h-6 inline-block" />}
+            <ArrowsExpandIcon className="w-6 h-6 inline-block" />}
               
               </span>
               </Button>
