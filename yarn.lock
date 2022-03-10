@@ -1793,6 +1793,11 @@ cosmiconfig@^7.0.1:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+countup.js@^2.0.8:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-2.1.0.tgz#86c1c9075a2eed138262b0ea1344ebe71b41e579"
+  integrity sha512-VanMzLEjkt3Hp/ty5BXikM8s4wE3OH4m1AnFro7THR86nYGRvGfGCoV+zrRJcqTbZi7X1egkLSIeUKDz7+4XLA==
+
 cron-schedule@^3.0.4:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/cron-schedule/-/cron-schedule-3.0.5.tgz#8a85ed3016ff2a5479f9c32a6f0e6b0a93a02b6f"
@@ -4665,6 +4670,13 @@ quick-lru@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
+
+react-countup@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/react-countup/-/react-countup-6.1.1.tgz#2dd5a82dd1059afd4e269a33de5cd1fa5a7910d7"
+  integrity sha512-9mYlnk/yCFg3g2/65pCTex6mr9h0eYdDMIL4T5nfLj/RzoiqY03wlPxZglzbJ6OzXvU37OmYApwQ4WMZNFr8Aw==
+  dependencies:
+    countup.js "^2.0.8"
 
 react-dom@^17.0.2:
   version "17.0.2"

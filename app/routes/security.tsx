@@ -1,11 +1,12 @@
 import Typist from "react-typist";
 import Heading from "~/components/heading";
-import Nav from "~/components/nav";
+import Layout from "~/components/layout";
+import NavBar from "~/components/navbar";
 
 const Security = () => {
     return (
-        <div className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 h-screen w-full">
-            <Nav />
+        <Layout>
+            <NavBar />
             <div className="py-10 mx-20 rounded-md">
                 <div className="flex">
                     <Heading><Typist>
@@ -31,7 +32,7 @@ const Security = () => {
 
             </div>
 
-        </div>
+        </Layout>
     )
 }
 

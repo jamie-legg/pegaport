@@ -8,7 +8,7 @@ interface IHeadingProps {
 const Heading = ({ children, style, title }: IHeadingProps) => {
     if(style){
         return(
-        <>
+        <div className="px-9 w-96 py-3 mt-3 rounded-2xl nm-convex-slate-800 shadow-2xl">
         <h2 className="my-1.5 flex mr-9 font-bold text-xl lg:text-2xl 2xl:text-3xl uppercase">
             {title}
         <div className="border-t-white border-t-2 mt-3 ml-3 w-max"></div>
@@ -17,7 +17,7 @@ const Heading = ({ children, style, title }: IHeadingProps) => {
         <div className="flex">
         {children}
         </div>
-        </>
+        </div>
         )
     }
     else {

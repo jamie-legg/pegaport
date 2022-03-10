@@ -1,23 +1,30 @@
 import { useMemo } from "react";
 
-const Button = ({ children, type }: any) => {
+interface IButtonProps {
+    children: React.ReactNode;
+    type?: "secondary" | "danger";
+    onClick?: () => void;
+}
+
+const Button = ({ children, type, onClick }: IButtonProps) => {
+    let baseClass = 'inline-flex mx-3 items-center justify-center px-4 py-2 nm-convex-slate-900 rounded-md transition-all font-extrabold';
     const style = useMemo(() => {
         if (type === 'secondary') {
-            return "my-3 mr-3 nm-concave-slate-900 border-fuchsia-700 text-slate-100 hover:text-slate-400 cursor-pointer transition-all rounded-md h-max px-6 py-3 uppercase font-extrabold";
+            return "text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
         }
         if (type === 'danger') {
-            return "my-3 mr-3 nm-convex-slate-900 text-red-500 cursor-pointer hover:text-red-900 transition-all rounded-md h-max px-6 py-3 uppercase font-extrabold";
+            return "text-red-500 hover:text-red-900";
         }
             else {
-            return "my-3 mr-3 bg-none text-white transition-all rounded-md h-max px-6 py-3 uppercase font-extrabold";
+            return "my-3 mr-3 nm-convex-slate-900 text-sky-500 hover:text-sky-900 transition-all rounded-md h-max px-6 py-3 uppercase font-extrabold";
         }
     }, [type]);
 
 return(
             
-            <div className={style}>
+            <button onClick={onClick} className={baseClass + " " + style}>
         {children}
-    </div>
+    </button>
         
 
 
