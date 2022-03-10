@@ -11,7 +11,8 @@ import IDModal from './idModal'
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'Discord', href: 'https://discord.gg/5c2AGrEMsw', current: false },
-  { name: 'Security', href: '/security', current: false }
+  { name: 'Tracker', href: '/tracker', current: false },
+  { name: 'Security', href: '/security', current: false },
 ]
 
 function classNames(...classes: string[]) {
