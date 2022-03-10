@@ -1,13 +1,14 @@
 import Typist from "react-typist";
 import Button from "~/components/button";
 import Heading from "~/components/heading";
-import Nav from "~/components/nav";
+import Layout from "~/components/layout";
+import NavBar from "~/components/navbar";
 
 const Security = () => {
     return (
         <Layout>
             <NavBar />
-            <div className="py-10 mx-20 rounded-md min-h-screen">
+            <div className="py-10 mx-20 rounded-md">
                 <div className="flex">
                     <Heading><Typist>
                         <Typist.Delay ms={1000} />
@@ -35,7 +36,7 @@ const Security = () => {
 
             </div>
 
-        </div>
+        </Layout>
     )
 }
 

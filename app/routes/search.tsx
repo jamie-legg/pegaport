@@ -3,7 +3,8 @@ import Typist from "react-typist";
 import { Form, useTransition } from "remix";
 import Button from "~/components/button";
 import Heading from "~/components/heading";
-import Nav from "~/components/nav"
+import Layout from "~/components/layout";
+import NavBar from "~/components/navbar";
 import Title from "~/components/title"
 
 const Search = () => {
@@ -11,8 +12,8 @@ const Search = () => {
     let busy = transition.submission;
     
     return (
-        <div className="bg-gradient-to-r text-white from-slate-900 to-fuchsia-900 h-screen w-full">
-            <Nav />
+        <Layout>
+            <NavBar />
             <div className="py-20 mx-20 rounded-md">
                 <div className="flex">
                 <Form>
@@ -33,7 +34,7 @@ const Search = () => {
                 </div>
             </div>
             
-        </div>
+        </Layout>
     )
 }
 
