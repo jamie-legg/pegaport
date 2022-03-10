@@ -9,9 +9,9 @@ import Toast from './notification'
 import IDModal from './idModal'
 
 const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Discord', href: '#', current: false },
-  { name: 'Security', href: '#', current: false }
+  { name: 'Home', href: '/', current: true },
+  { name: 'Discord', href: 'https://discord.gg/5c2AGrEMsw', current: false },
+  { name: 'Security', href: '/security', current: false }
 ]
 
 function classNames(...classes: string[]) {
@@ -154,7 +154,7 @@ const NavBar = ({ connectionArrayFx }: INavBarProps) => {
                         id="search"
                         name="search"
                         className="block transition-all w-full nm-inset-slate-700 border border-transparent rounded-md py-2 pl-10 pr-3 text-sm placeholder-slate-400 focus:outline-none focus:nm-inset-slate-600 focus:border-white focus:ring-white focus:text-slate-100 focus:placeholder-slate-300 sm:text-sm"
-                        placeholder="Search"
+                        placeholder="Search an ID"
                         type="search"
                       />
                       <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">

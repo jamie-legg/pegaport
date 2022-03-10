@@ -1,6 +1,7 @@
 import { SearchIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import Typist from "react-typist";
+import { getSpecificPega } from "~/pega";
 
 const PegaSearch = () => {
     const [searchPegaId, setSearchPegaId] = useState("");
@@ -8,7 +9,13 @@ const PegaSearch = () => {
 
     useEffect(() => {
         if (searchPegaId.length > 0) {
-            setSearchPegaResultString("hahdwehfwehfwef");
+            setSearchPegaResultString(`Searching for ${searchPegaId}...`);
+            getSpecificPega(searchPegaId).then(({ pega }) => {
+                let ageDays = Math.floor((new Date().getTime() - new Date(pega.bornTime * 1000).getTime()) / (24 * 60 * 60 * 1000));
+                setSearchPegaResultString(`NAME: ${pega.name}/AGE (days): ${ageDays}/OWNER: ${pega.owner.name} \n
+                `);
+            }
+            );
         }
     }, [searchPegaId])
 
@@ -30,10 +37,18 @@ const PegaSearch = () => {
                             {searchPegaId.length > 0 ? <Typist>...</Typist> : <SearchIcon className="inline-block w-5 mr-3"></SearchIcon>}
                         </button>
                     </div>
-                    <div className="h-64 nm-flat-slate-900 mt-3">
+                    <div className="h-64 w-64 nm-flat-slate-900 mt-3">
                         <div className="m-3">
-                                    <Typist avgTypingDelay={10}><code>
-                                        Enter a valid Pega ID to begin.
+                            
+                                    <Typist className="flex-col" key={searchPegaResultString} avgTypingDelay={10}><code>
+                                    
+                                        {searchPegaResultString ?
+                                         searchPegaResultString.split("/").map((line, i) => {
+                                            return <div key={i}>{line}<br />{i}</div>
+                                         }
+                                            ) : <span>Enter a valid Pega ID to begin.</span>}
+                                         
+        
                                     </code>
                                     </Typist>
 
